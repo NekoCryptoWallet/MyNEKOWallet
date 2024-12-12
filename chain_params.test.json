@@ -1,22 +1,22 @@
 {
     "main": {
         "name": "mainnet",
-        "collateralInSats": 1000000000000,
+        "collateralInSats": 1500000000000,
         "isTestnet": false,
         "TICKER": "ZNZ",
-        "PUBKEY_PREFIX": ["D"],
+        "PUBKEY_PREFIX": ["Z"],
         "STAKING_PREFIX": "S",
-        "PUBKEY_ADDRESS": [30],
+        "PUBKEY_ADDRESS": [81],
         "EXCHANGE_ADDRESS_PREFIX": [1, 185, 162],
-        "STAKING_ADDRESS": [63],
-        "SECRET_KEY": 212,
-        "BIP44_TYPE": 119,
+        "STAKING_ADDRESS": [73],
+        "SECRET_KEY": 215,
+        "BIP44_TYPE": 377,
         "BIP44_TYPE_LEDGER": 77,
-        "PROTOCOL_VERSION": 70927,
-        "MASTERNODE_PORT": 51472,
+        "PROTOCOL_VERSION": 70005,
+        "MASTERNODE_PORT": 26210,
         "SHIELD_PREFIX": "ps",
         "Explorers": [
-            { "name": "Duddino", "url": "https://explorer.duddino.com" }
+            { "name": "NekoSuneVR", "url": "https://znzexplorer.nekosunevr.co.uk" }
         ],
         "Nodes": [
             { "name": "Duddino", "url": "https://rpc.duddino.com/mainnet" }
@@ -28,7 +28,7 @@
         "proposalFeeConfirmRequirement": 6,
         "maxPaymentCycles": 6,
         "maxPayment": 43200000000000,
-        "defaultColdStakingAddress": "SdgQDpS8jDRJDX8yK8m9KnTMarsE84zdsy",
+        "defaultColdStakingAddress": "SW6ujGvjAgiipcrKYTDeNYPajeZpSTgHtm",
         "stakeSplitTarget": 50000000000
     },
     "testnet": {
