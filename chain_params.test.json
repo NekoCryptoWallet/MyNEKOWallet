@@ -28,7 +28,7 @@
         "proposalFeeConfirmRequirement": 6,
         "maxPaymentCycles": 6,
         "maxPayment": 43200000000000,
-        "defaultColdStakingAddress": "SW6ujGvjAgiipcrKYTDeNYPajeZpSTgHtm",
+        "defaultColdStakingAddress": "SMVZyXBG6VdJZwq3YpAWrf2V3RQatqKS9A",
         "stakeSplitTarget": 50000000000
     },
     "testnet": {
