@@ -1,5 +1,5 @@
 amount = "Quantia" # Amount
-footerBuiltWithPivxLabs = "Construido com 💜 por PIVX Labs 🇵🇹" # Built with 💜 by PIVX Labs
+footerBuiltWithPivxLabs = "Construido com 💜 por PIVX Labs 🇵🇹" # Built with 💜 by NekoSuneVR (Fork of PIVX Labs)
 loading = "Carregar" # Loading
 dCardOneTitle = "Criar a" # Create a
 dCardTwoDesc = "Criar uma carteira com um prefixo personalizado, isso pode levar muito tempo!" # Create a wallet with a custom prefix, this can take a long time!
