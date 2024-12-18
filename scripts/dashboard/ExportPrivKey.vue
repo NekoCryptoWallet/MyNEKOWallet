@@ -15,7 +15,11 @@ const blur = ref(true);
 const emit = defineEmits(['close']);
 
 function downloadWalletFile() {
-    downloadBlob(props.privateKey, 'wallet.json', 'text/csv;charset=utf-8;');
+    downloadBlob(
+        props.privateKey,
+        'wallet.json',
+        'application/json;charset=utf-8;'
+    );
 }
 
 function close() {
@@ -34,46 +38,22 @@ function close() {
             </template>
             <template #body>
                 <div class="dcWallet-privateKeyDiv text-center">
-                    <span class="span2"
-                        >{{ translation.privateWarning1 }}
-                        {{ translation.privateWarning2 }}</span
-                    >
-                    <code
-                        :class="{ blurred: blur }"
-                        data-testid="privateKeyText"
-                        >{{ privateKey }}</code
-                    >
+                    <span class="span2">{{ translation.privateWarning1 }}
+                        {{ translation.privateWarning2 }}</span>
+                    <code :class="{ blurred: blur }" data-testid="privateKeyText">{{ privateKey }}</code>
                 </div>
             </template>
             <template #footer>
                 <center>
-                    <button
-                        type="button"
-                        class="pivx-button-big-cancel"
-                        data-testid="closeBtn"
-                        @click="close()"
-                    >
+                    <button type="button" class="pivx-button-big-cancel" data-testid="closeBtn" @click="close()">
                         {{ translation.popupClose }}
                     </button>
-                    <button
-                        class="pivx-button-big"
-                        @click="blur = !blur"
-                        data-testid="blurBtn"
-                    >
-                        <span data-i18n="viewKey" class="buttoni-text"
-                            >{{ translation.viewKey }}
+                    <button class="pivx-button-big" @click="blur = !blur" data-testid="blurBtn">
+                        <span data-i18n="viewKey" class="buttoni-text">{{ translation.viewKey }}
                         </span>
                     </button>
-                    <button
-                        v-if="isJSON"
-                        class="pivx-button-big"
-                        @click="downloadWalletFile()"
-                    >
-                        <span
-                            data-i18n="saveWalletFile"
-                            class="buttoni-text"
-                            v-html="pIconExport"
-                        >
+                    <button v-if="isJSON" class="pivx-button-big" @click="downloadWalletFile()">
+                        <span data-i18n="saveWalletFile" class="buttoni-icon" v-html="pIconExport">
                         </span>
                     </button>
                 </center>

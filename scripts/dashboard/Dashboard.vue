@@ -16,7 +16,7 @@ import {
 } from '../misc.js';
 import { ALERTS, translation, tr } from '../i18n.js';
 import { HardwareWalletMasterKey, HdMasterKey } from '../masterkey';
-import { COIN } from '../chain_params';
+import { COIN, cChainParams } from '../chain_params';
 import { onMounted, ref, watch, computed } from 'vue';
 import { getEventEmitter } from '../event_bus';
 import { Database } from '../database';
@@ -501,118 +501,66 @@ defineExpose({
 <template>
     <div id="keypair" class="tabcontent">
         <div class="row m-0">
-            <Login
-                v-show="!wallet.isImported"
-                :advancedMode="advancedMode"
-                @import-wallet="importWallet"
-            />
+            <Login v-show="!wallet.isImported" :advancedMode="advancedMode" @import-wallet="importWallet" />
 
             <br />
 
             <!-- Redeem Code (ZENZO Promos) -->
-            <div
-                class="modal"
-                id="redeemCodeModal"
-                tabindex="-1"
-                role="dialog"
-                aria-hidden="true"
-                data-backdrop="static"
-                data-keyboard="false"
-            >
-                <div
-                    class="modal-dialog modal-dialog-centered max-w-600"
-                    role="document"
-                >
+            <div class="modal" id="redeemCodeModal" tabindex="-1" role="dialog" aria-hidden="true"
+                data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-dialog-centered max-w-600" role="document">
                     <div class="modal-content exportKeysModalColor">
                         <div style="position: relative; top: -54px; left: -1px">
                             <ul class="settingsMenu redeemMenu">
-                                <li
-                                    data-i18n="redeem"
-                                    style="width: 50%; text-align: center"
-                                    onclick="MPW.setPromoMode(true)"
-                                    id="redeemCodeModeRedeem"
-                                    class="active"
-                                >
+                                <li data-i18n="redeem" style="width: 50%; text-align: center"
+                                    onclick="MPW.setPromoMode(true)" id="redeemCodeModeRedeem" class="active">
                                     Redeem
                                 </li>
-                                <li
-                                    data-i18n="create"
-                                    style="width: 50%; text-align: center"
-                                    onclick="MPW.setPromoMode(false)"
-                                    id="redeemCodeModeCreate"
-                                >
+                                <li data-i18n="create" style="width: 50%; text-align: center"
+                                    onclick="MPW.setPromoMode(false)" id="redeemCodeModeCreate">
                                     Create
                                 </li>
                             </ul>
                         </div>
-                        <div
-                            class="modal-header"
-                            id="redeemCodeModalHeader"
-                            style="margin-top: -40px"
-                        >
-                            <h3
-                                class="modal-title"
-                                id="redeemCodeModalTitle"
-                                style="
+                        <div class="modal-header" id="redeemCodeModalHeader" style="margin-top: -40px">
+                            <h3 class="modal-title" id="redeemCodeModalTitle" style="
                                     text-align: center;
                                     width: 100%;
                                     color: #21ffda;
                                     margin-top: 0px;
-                                "
-                            >
+                                ">
                                 Redeem Code
                             </h3>
                         </div>
-                        <div
-                            class="modal-body center-text"
-                            style="padding-top: 0px; padding-bottom: 0px"
-                        >
+                        <div class="modal-body center-text" style="padding-top: 0px; padding-bottom: 0px">
                             <center>
-                                <p
-                                    style="
+                                <p style="
                                         color: #9cc6c5;
                                         font-size: 15px;
                                         width: 250px;
                                         font-family: Montserrat !important;
-                                    "
-                                >
+                                    ">
                                     ZENZO Promos
                                     {{ translation.pivxPromos }}
                                 </p>
                                 <div id="redeemCodeUse">
                                     <div id="redeemCodeInputBox">
-                                        <input
-                                            class="btn-input mono center-text"
-                                            type="text"
-                                            id="redeemCodeInput"
-                                            :placeholder="
-                                                translation.redeemInput
-                                            "
-                                            style="text-align: left"
-                                            autocomplete="nope"
-                                        />
+                                        <input class="btn-input mono center-text" type="text" id="redeemCodeInput"
+                                            :placeholder="translation.redeemInput
+                                                " style="text-align: left" autocomplete="nope" />
                                     </div>
                                     <center>
-                                        <div
-                                            id="redeemCodeGiftIconBox"
-                                            style="display: none"
-                                        >
+                                        <div id="redeemCodeGiftIconBox" style="display: none">
                                             <br />
                                             <br />
-                                            <i
-                                                id="redeemCodeGiftIcon"
-                                                onclick="MPW.sweepPromoCode();"
-                                                class="fa-solid fa-gift fa-2xl"
-                                                style="
+                                            <i id="redeemCodeGiftIcon" onclick="MPW.sweepPromoCode();"
+                                                class="fa-solid fa-gift fa-2xl" style="
                                                     color: #813d9c;
                                                     font-size: 4em;
-                                                "
-                                            ></i>
+                                                "></i>
                                         </div>
 
-                                        <div
-                                            id="redeemCodeDiv"
-                                            style="
+                                        <div id="redeemCodeDiv" style="
                                                 margin-top: 50px;
                                                 display: none;
                                                 font-size: 15px;
@@ -629,10 +577,8 @@ defineExpose({
                                                 width: 310px;
                                                 text-align: left;
                                                 margin-bottom: 20px;
-                                            "
-                                        >
-                                            <div
-                                                style="
+                                            ">
+                                            <div style="
                                                     width: 48px;
                                                     height: 38px;
                                                     background-color: rgb(
@@ -646,20 +592,14 @@ defineExpose({
                                                     justify-content: center;
                                                     align-items: center;
                                                     font-size: 20px;
-                                                "
-                                            >
-                                                <i
-                                                    class="fas fa-spinner spinningLoading"
-                                                ></i>
+                                                ">
+                                                <i class="fas fa-spinner spinningLoading"></i>
                                             </div>
                                             <div style="width: 100%">
                                                 <div id="redeemCodeETA">
                                                     Calculating...
                                                 </div>
-                                                <div
-                                                    div=""
-                                                    class="progress"
-                                                    style="
+                                                <div div="" class="progress" style="
                                                         max-width: 310px;
                                                         border: 1px solid
                                                             rgb(147, 46, 205);
@@ -669,106 +609,70 @@ defineExpose({
                                                             0,
                                                             58
                                                         );
-                                                    "
-                                                >
-                                                    <div
-                                                        class="progress-bar progress-bar-striped progress-bar-animated"
-                                                        role="progressbar"
-                                                        id="redeemCodeProgress"
-                                                        aria-valuenow="42"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style="
+                                                    ">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                        role="progressbar" id="redeemCodeProgress" aria-valuenow="42"
+                                                        aria-valuemin="0" aria-valuemax="100" style="
                                                             width: 42% !important;
-                                                        "
-                                                    ></div>
+                                                        "></div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <progress
-                                            min="0"
-                                            max="100"
-                                            value="50"
-                                            style="display: none"
-                                        ></progress>
+                                        <progress min="0" max="100" value="50" style="display: none"></progress>
                                     </center>
                                 </div>
-                                <div
-                                    id="redeemCodeCreate"
-                                    style="display: none"
-                                >
-                                    <input
-                                        class="btn-input mono center-text"
-                                        style="
+                                <div id="redeemCodeCreate" style="display: none">
+                                    <input class="btn-input mono center-text" style="
                                             border-top-right-radius: 9px;
                                             border-bottom-right-radius: 9px;
-                                        "
-                                        type="text"
-                                        id="redeemCodeCreateInput"
-                                        :placeholder="translation.createName"
-                                        autocomplete="nope"
-                                    />
-                                    <input
-                                        class="btn-input mono center-text"
-                                        id="redeemCodeCreateAmountInput"
-                                        style="
+                                        " type="text" id="redeemCodeCreateInput" :placeholder="translation.createName"
+                                        autocomplete="nope" />
+                                    <input class="btn-input mono center-text" id="redeemCodeCreateAmountInput" style="
                                             border-top-right-radius: 9px;
                                             border-bottom-right-radius: 9px;
-                                        "
-                                        type="text"
-                                        :placeholder="translation.createAmount"
-                                        autocomplete="nope"
-                                    />
-                                    <div
-                                        class="table-promo d-none"
-                                        id="promo-table"
-                                    >
+                                        " type="text" :placeholder="translation.createAmount" autocomplete="nope" />
+                                    <div class="table-promo d-none" id="promo-table">
                                         <br />
-                                        <table
-                                            class="table table-responsive table-sm stakingTx table-mobile-scroll"
-                                        >
+                                        <table class="table table-responsive table-sm stakingTx table-mobile-scroll">
                                             <thead style="border: 0px">
                                                 <tr>
-                                                    <td
-                                                        style="
+                                                    <td style="
                                                             width: 100px;
                                                             border-top: 0px;
                                                             border-bottom: 1px
                                                                 solid #534270;
-                                                        "
-                                                        class="text-center"
-                                                    >
+                                                        " class="text-center">
                                                         <b> Promo Code </b>
                                                     </td>
-                                                    <td
-                                                        style="
+                                                    <td style="
                                                             width: 100px;
                                                             border-top: 0px;
                                                             border-bottom: 1px
                                                                 solid #534270;
-                                                        "
-                                                        class="text-center"
-                                                    >
-                                                        <b> Amount </b>
+                                                        " class="text-center">
+                                                        <b>
+                                                            {{
+                                                                cChainParams
+                                                                    .current
+                                                                    .TICKER
+                                                            }}
+                                                        </b>
                                                     </td>
-                                                    <td
-                                                        style="
+                                                    <td style="
                                                             border-top: 0px;
                                                             border-bottom: 1px
                                                                 solid #534270;
-                                                        "
-                                                        class="text-center"
-                                                    ></td>
+                                                        " class="text-center">
+                                                        <i onclick="MPW.promosToCSV()"
+                                                            class="fa-solid fa-lg fa-file-csv ptr"></i>
+                                                    </td>
                                                 </tr>
                                             </thead>
-                                            <tbody
-                                                id="redeemCodeCreatePendingList"
-                                                style="
+                                            <tbody id="redeemCodeCreatePendingList" style="
                                                     text-align: center;
                                                     vertical-align: middle;
-                                                "
-                                            ></tbody>
+                                                "></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -776,42 +680,24 @@ defineExpose({
                         </div>
                         <div class="modal-footer" id="redeemCodeModalButtons">
                             <div id="redeemCameraBtn">
-                                <button
-                                    class="pivx-button-small-cancel"
-                                    style="
+                                <button class="pivx-button-small-cancel" style="
                                         float: left;
                                         height: 49px;
                                         width: 49px;
                                         padding-left: 12px;
-                                    "
-                                    onclick="MPW.openPromoQRScanner()"
-                                >
-                                    <span
-                                        class="buttoni-text cameraIcon"
-                                        v-html="pIconCamera"
-                                    >
+                                    " onclick="MPW.openPromoQRScanner()">
+                                    <span class="buttoni-text cameraIcon" v-html="pIconCamera">
                                     </span>
                                 </button>
                             </div>
 
-                            <button
-                                type="button"
-                                onclick="MPW.promoConfirm()"
-                                id="redeemCodeModalConfirmButton"
-                                class="pivx-button-big"
-                                style="float: right"
-                            >
+                            <button type="button" onclick="MPW.promoConfirm()" id="redeemCodeModalConfirmButton"
+                                class="pivx-button-big" style="float: right">
                                 Redeem
                             </button>
 
-                            <button
-                                type="button"
-                                class="pivx-button-big-cancel"
-                                id="redeemCodeModalConfirmButton"
-                                style="float: right"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                            >
+                            <button type="button" class="pivx-button-big-cancel" id="redeemCodeModalConfirmButton"
+                                style="float: right" data-dismiss="modal" aria-label="Close">
                                 {{ translation.popupClose }}
                             </button>
                         </div>
@@ -821,51 +707,29 @@ defineExpose({
             <!-- // Redeem Code (ZENZO Promos) -->
 
             <!-- Contacts Modal -->
-            <div
-                class="modal"
-                id="contactsModal"
-                tabindex="-1"
-                role="dialog"
-                aria-hidden="true"
-                data-backdrop="static"
-                data-keyboard="false"
-            >
-                <div
-                    class="modal-dialog modal-dialog-centered max-w-450"
-                    role="document"
-                >
+            <div class="modal" id="contactsModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+                data-keyboard="false">
+                <div class="modal-dialog modal-dialog-centered max-w-450" role="document">
                     <div class="modal-content exportKeysModalColor">
                         <div class="modal-header" id="contactsModalHeader">
-                            <h3
-                                class="modal-title"
-                                id="contactsModalTitle"
-                                style="
+                            <h3 class="modal-title" id="contactsModalTitle" style="
                                     text-align: center;
                                     width: 100%;
                                     color: #adf0ff;
-                                "
-                            >
+                                ">
                                 {{ translation.contacts }}
                             </h3>
                         </div>
                         <div class="modal-body px-0">
                             <div id="contactsList" class="contactsList"></div>
                         </div>
-                        <div
-                            class="modal-footer"
-                            style="
+                        <div class="modal-footer" style="
                                 display: flex;
                                 justify-content: center;
                                 padding-top: 0px;
-                            "
-                        >
-                            <button
-                                type="button"
-                                class="pivx-button-big-cancel"
-                                aria-label="Close"
-                                data-dismiss="modal"
-                                data-i18n="popupClose"
-                            >
+                            ">
+                            <button type="button" class="pivx-button-big-cancel" aria-label="Close" data-dismiss="modal"
+                                data-i18n="popupClose">
                                 {{ translation.popupClose }}
                             </button>
                         </div>
@@ -873,74 +737,34 @@ defineExpose({
                 </div>
             </div>
             <!-- // Contacts Modal -->
-            <ExportPrivKey
-                :show="showExportModal"
-                :privateKey="keyToBackup"
-                :isJSON="hasShield && !wallet.isEncrypted"
-                @close="showExportModal = false"
-            />
+            <ExportPrivKey :show="showExportModal" :privateKey="keyToBackup" :isJSON="hasShield && !wallet.isEncrypted"
+                @close="showExportModal = false" />
             <!-- WALLET FEATURES -->
             <div v-if="wallet.isImported">
-                <GenKeyWarning
-                    @onEncrypt="encryptWallet"
-                    @close="showEncryptModal = false"
-                    @open="showEncryptModal = true"
-                    :showModal="showEncryptModal"
-                    :showBox="needsToEncrypt"
-                    :isEncrypt="wallet.isEncrypted"
-                />
+                <GenKeyWarning @onEncrypt="encryptWallet" @close="showEncryptModal = false"
+                    @open="showEncryptModal = true" :showModal="showEncryptModal" :showBox="needsToEncrypt"
+                    :isEncrypt="wallet.isEncrypted" />
                 <div class="row p-0">
                     <!-- Balance in ZENZO & USD-->
-                    <WalletBalance
-                        :balance="balance"
-                        :shieldBalance="shieldBalance"
-                        :pendingShieldBalance="pendingShieldBalance"
-                        :immatureBalance="immatureBalance"
-                        :isHdWallet="wallet.isHD"
-                        :isViewOnly="wallet.isViewOnly"
-                        :isEncrypted="wallet.isEncrypted"
-                        :isImported="wallet.isImported"
-                        :needsToEncrypt="needsToEncrypt"
-                        @displayLockWalletModal="displayLockWalletModal()"
-                        @restoreWallet="restoreWallet()"
-                        :isHardwareWallet="wallet.isHardwareWallet"
-                        :currency="currency"
-                        :price="price"
-                        :displayDecimals="displayDecimals"
-                        :shieldEnabled="hasShield"
-                        @send="showTransferMenu = true"
-                        @exportPrivKeyOpen="showExportModal = true"
-                        :publicMode="wallet.publicMode"
-                        class="col-12 p-0 mb-2"
-                    />
+                    <WalletBalance :balance="balance" :shieldBalance="shieldBalance"
+                        :pendingShieldBalance="pendingShieldBalance" :immatureBalance="immatureBalance"
+                        :isHdWallet="wallet.isHD" :isViewOnly="wallet.isViewOnly" :isEncrypted="wallet.isEncrypted"
+                        :isImported="wallet.isImported" :needsToEncrypt="needsToEncrypt"
+                        @displayLockWalletModal="displayLockWalletModal()" @restoreWallet="restoreWallet()"
+                        :isHardwareWallet="wallet.isHardwareWallet" :currency="currency" :price="price"
+                        :displayDecimals="displayDecimals" :shieldEnabled="hasShield" @send="showTransferMenu = true"
+                        @exportPrivKeyOpen="showExportModal = true" :publicMode="wallet.publicMode"
+                        class="col-12 p-0 mb-2" />
                     <WalletButtons class="col-12 p-0 md-5" />
-                    <Activity
-                        ref="activity"
-                        class="col-12 p-0 mb-5"
-                        title="Activity"
-                        :rewards="false"
-                    />
+                    <Activity ref="activity" class="col-12 p-0 mb-5" title="Activity" :rewards="false" />
                 </div>
             </div>
         </div>
-        <TransferMenu
-            :show="showTransferMenu"
-            :publicMode="wallet.publicMode"
-            :price="price"
-            :currency="currency"
-            v-model:amount="transferAmount"
-            :desc="transferDescription"
-            v-model:address="transferAddress"
-            @openQrScan="openSendQRScanner()"
-            @close="showTransferMenu = false"
-            @send="send"
-            @max-balance="getMaxBalance"
-        />
+        <TransferMenu :show="showTransferMenu" :publicMode="wallet.publicMode" :price="price" :currency="currency"
+            v-model:amount="transferAmount" :desc="transferDescription" v-model:address="transferAddress"
+            @openQrScan="openSendQRScanner()" @close="showTransferMenu = false" @send="send"
+            @max-balance="getMaxBalance" />
     </div>
-    <RestoreWallet
-        :show="showRestoreWallet"
-        :reason="restoreWalletReason"
-        :wallet="wallet"
-        @close="showRestoreWallet = false"
-    />
+    <RestoreWallet :show="showRestoreWallet" :reason="restoreWalletReason" :wallet="wallet"
+        @close="showRestoreWallet = false" />
 </template>

@@ -150,10 +150,6 @@ class NetworkManager {
         return await this.#retryWrapper('getXPubInfo', false, strXPUB);
     }
 
-    async getShieldBlockList() {
-        return await this.#retryWrapper('getShieldBlockList', true);
-    }
-
     async getBlockCount() {
         return await this.#retryWrapper('getBlockCount', true);
     }

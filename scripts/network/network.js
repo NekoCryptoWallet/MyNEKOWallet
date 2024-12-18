@@ -61,10 +61,6 @@ export class Network {
         throw new Error('getXPubInfo must be implemented');
     }
 
-    async getShieldBlockList() {
-        throw new Error('getShieldBlockList must be implemented');
-    }
-
     async getBlockCount() {
         throw new Error('getBlockCount must be implemented');
     }
@@ -178,14 +174,8 @@ export class RPCNodeNetwork extends Network {
         const strHash = (
             await this.#callRPC(`/getblockhash?params=${blockHeight}`, true)
         ).replace(/"/g, '');
-        // Craft a filter to retrieve only raw Tx hex and txid, also change "tx" to "txs"
-        const strFilter =
-            '&filter=' +
-            encodeURI(
-                `. | .txs = [.tx[] | { hex: .hex, txid: .txid}] | del(.tx)`
-            );
         // Fetch the full block (verbose)
-        return await this.#callRPC(`/getblock?params=${strHash},2${strFilter}`);
+        return await this.#callRPC(`/getblock?params=${strHash}`);
     }
 
     /**
@@ -211,13 +201,6 @@ export class RPCNodeNetwork extends Network {
         );
         strTXID = strTXID.replace(/"/g, '');
         return { result: strTXID };
-    }
-
-    /**
-     * @return {Promise<Number[]>} The list of blocks which have at least one shield transaction
-     */
-    async getShieldBlockList() {
-        return await this.#callRPC('/getshieldblocks');
     }
 
     /**
