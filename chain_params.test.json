@@ -19,7 +19,7 @@
             { "name": "NekoSuneVR", "url": "https://znzexplorer.alloyxuast.co.uk" }
         ],
         "Nodes": [
-            { "name": "Duddino", "url": "https://rpc.duddino.com/mainnet" }
+            { "name": "NekoSuneVR", "url": "https://mynekowallet.alloyxuast.co.uk/rpc/zenzo" }
         ],
         "Consensus": {},
         "coinbaseMaturity": 100,
