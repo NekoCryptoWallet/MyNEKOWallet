@@ -356,7 +356,7 @@ async function renderContactModal() {
     if (cAccount?.name) {
         // Use rotated Shield, otherwise we'll fallback to our current public address
         const strSharedKey = wallet.hasShield()
-            ? await wallet.getNewShieldAddress()
+            ? await wallet.getCurrentAddress()
             : wallet.getCurrentAddress();
 
         // Construct the Contact Share URI
@@ -382,7 +382,7 @@ async function renderContactModal() {
     } else {
         // Get our current wallet address
         const strSharedKey = wallet.hasShield()
-            ? await wallet.getNewShieldAddress()
+            ? await wallet.getCurrentAddress()
             : wallet.getCurrentAddress();
 
         // Update the QR Label (we'll show the address here for now, user can set Contact "Name" optionally later)
@@ -465,7 +465,7 @@ export async function guiRenderReceiveModal(
             renderAddress(wallet.getCurrentAddress());
             break;
         case RECEIVE_TYPES.SHIELD:
-            renderAddress(await wallet.getNewShieldAddress());
+            renderAddress(await wallet.getCurrentAddress());
             break;
         case RECEIVE_TYPES.XPUB:
             renderAddress(wallet.getXPub());
@@ -1041,7 +1041,7 @@ export async function localContactToURI(account, pubkey) {
     // Use rotated Shield, otherwise we'll fallback to our single address
     if (!strPubkey)
         strPubkey = wallet.hasShield()
-            ? await wallet.getNewShieldAddress()
+            ? await wallet.getCurrentAddress()
             : wallet.getCurrentAddress();
 
     // Construct the Contact URI Root
