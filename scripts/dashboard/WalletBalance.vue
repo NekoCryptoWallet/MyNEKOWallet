@@ -276,29 +276,6 @@ function restoreWallet() {
                                             }}</span
                                         >
                                     </a>
-                                    <a
-                                        class="dropdown-item ptr"
-                                        v-if="shieldEnabled"
-                                        data-toggle="modal"
-                                        data-target="#qrModal"
-                                        @click="
-                                            getNewAddress({
-                                                updateGUI: true,
-                                                verify: true,
-                                                shield: true,
-                                            })
-                                        "
-                                    >
-                                        <span
-                                            class="buttoni-icon iconList"
-                                            v-html="pShieldCheck"
-                                        ></span>
-                                        <span
-                                            >&nbsp;{{
-                                                translation.newShieldAddress
-                                            }}</span
-                                        >
-                                    </a>
                                 </div>
                             </div>
                         </div>
